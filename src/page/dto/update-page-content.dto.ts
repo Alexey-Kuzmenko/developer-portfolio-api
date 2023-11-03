@@ -1,4 +1,4 @@
-import { ContentLang, Link, PageContent } from './create-page-dto';
+import { ContentLang, Link, PageContent } from './create-page.dto';
 
 export class UpdatePageContentDto implements PageContent {
     _id: string;

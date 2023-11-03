@@ -23,7 +23,7 @@ export interface PageContent {
     links?: Array<Link>
 }
 
-export class CreatePageDto {
+export class PageModel {
     _id: string
     type: PagesType
     content: {

@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+
 // ! testing PageContent
-import { CreatePageDto, PageContent } from './dto/create-page-dto';
-import { UpdatePageContentDto } from './dto/update-page-content-dto';
+import { PageModel, PageContent } from './page.model';
+import { UpdatePageContentDto } from './dto/update-page-content.dto';
 
 @Controller('page')
 export class PageController {
@@ -17,7 +18,7 @@ export class PageController {
     }
 
     @Post('create')
-    async createPage(@Body() dto: CreatePageDto): Promise<PageContent> {
+    async createPage(@Body() dto: PageModel): Promise<PageContent> {
         return dto.content.eng
     }
 
