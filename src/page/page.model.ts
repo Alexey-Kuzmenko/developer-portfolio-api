@@ -30,8 +30,5 @@ export class PageModel {
         ua: PageContent,
         eng: PageContent
     }
-    extraContent?: {
-        ua: PageContent,
-        eng: PageContent
-    }
+    extraContent?: Array<PageContent>
 }

@@ -10,7 +10,7 @@ export class SkillController {
     async addSkill(@Body() dto: Omit<SkillModel, '_id'>) { }
 
     @Patch(':id')
-    async changeSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>) { }
+    async updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>) { }
 
     @Delete(':id')
     async deleteSkillById(@Param('id') id: string) { }
