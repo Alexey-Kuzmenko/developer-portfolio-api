@@ -11,7 +11,7 @@ export class SkillService {
 
     createSkill(dto: Omit<SkillModel, '_id'>): SkillModel {
         const skill: SkillModel = {
-            _id: Math.floor(Math.random()).toString(),
+            _id: Math.floor(Math.random() * 1000).toString(),
             ...dto
         }
 

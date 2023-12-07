@@ -7,22 +7,22 @@ export class SkillController {
     constructor(private readonly skillService: SkillService) { }
 
     @Get()
-    async getSkills(): Promise<Array<SkillModel>> {
+    getSkills(): Array<SkillModel> {
         return this.skillService.getAllSkills()
     }
 
     @Post()
-    async addSkill(@Body() dto: Omit<SkillModel, '_id'>): Promise<SkillModel> {
+    addSkill(@Body() dto: Omit<SkillModel, '_id'>): SkillModel {
         return this.skillService.createSkill(dto)
     }
 
     @Patch(':id')
-    async updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>): Promise<string> {
+    updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>): string {
         return this.skillService.updateSkill(dto, id)
     }
 
     @Delete(':id')
-    async deleteSkillById(@Param('id') id: string): Promise<string> {
+    deleteSkillById(@Param('id') id: string): string {
         return this.skillService.deleteSkill(id)
     }
 }
