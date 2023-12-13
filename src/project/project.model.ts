@@ -10,7 +10,7 @@ enum ProjectTags {
 export class ProjectModel {
     _id: string
     name: string
-    tags: Array<ProjectTags>
+    tags: Array<string>
     description: string
     link: string
     repoLink: string

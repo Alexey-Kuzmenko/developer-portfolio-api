@@ -43,7 +43,8 @@ describe('AppController', () => {
                 label: 'instagram',
                 body: 'test',
                 href: 'link',
-                atl: 'Instagram page'
+                atl: 'Instagram page',
+                iconType: 'email'
             }
 
             jest.spyOn(contactService, 'createContact').mockImplementation(() => result)
@@ -58,7 +59,8 @@ describe('AppController', () => {
                 label: 'instagram',
                 body: 'test',
                 href: 'link',
-                atl: 'Instagram page'
+                atl: 'Instagram page',
+                iconType: 'email'
             }
             const result: string = dto._id
 

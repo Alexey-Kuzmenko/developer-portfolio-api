@@ -1,21 +1,35 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
+import { ProjectService } from './project.service';
+import { ProjectModel } from './project.model';
 
 @Controller('projects')
 export class ProjectController {
+    constructor(private readonly projectService: ProjectService) { }
+
     @Get()
-    async getProjects() { }
+    getProjects(): Array<ProjectModel> {
+        return this.projectService.getAllProjects()
+    }
 
     @Post()
-    async createProject(@Body() dto: CreateProjectDto) { }
+    createProject(@Body() dto: CreateProjectDto): ProjectModel {
+        return this.projectService.createProject(dto)
+    }
 
     @Get(':id')
-    async getProjectById(@Param('id') id: string) { }
+    getProjectById(@Param('id') id: string): ProjectModel {
+        return this.projectService.getProjectById(id)
+    }
 
     @Delete(':id')
-    async deleteProjectById(@Param('id') id: string) { }
+    deleteProjectById(@Param('id') id: string): string {
+        return this.projectService.deleteProjectById(id)
+    }
 
     @Patch(':id')
-    async updateProjectById(@Param('id') id: string, @Body() dto: CreateProjectDto) { }
+    updateProjectById(@Param('id') id: string, @Body() dto: CreateProjectDto): string {
+        return this.projectService.updateProjectById(id, dto)
+    }
 
 }
