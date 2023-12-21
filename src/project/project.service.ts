@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ProjectModel } from './project.model';
-import { CreateProjectDto } from './dto/create-project.dto';
+import { ProjectDto } from './dto/project.dto';
 
 @Injectable()
 export class ProjectService {
@@ -10,7 +10,7 @@ export class ProjectService {
         return this.projects
     }
 
-    createProject(dto: CreateProjectDto): ProjectModel {
+    createProject(dto: ProjectDto): ProjectModel {
         const project: ProjectModel = {
             _id: Math.floor(Math.random() * 10_0000).toString(),
             ...dto
@@ -30,7 +30,7 @@ export class ProjectService {
         return id
     }
 
-    updateProjectById(id: string, dto: CreateProjectDto): string | undefined {
+    updateProjectById(id: string, dto: ProjectDto): string | undefined {
         const project: ProjectModel = this.projects.find(project => project._id === id)
 
         if (project) {

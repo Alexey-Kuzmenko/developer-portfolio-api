@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProjectService } from './project.service';
 import { ProjectController } from './project.controller';
 import { ProjectModel } from './project.model';
-import { CreateProjectDto } from './dto/create-project.dto';
+import { ProjectDto } from './dto/project.dto';
 
 describe('AppController', () => {
     let projectController: ProjectController;
@@ -77,7 +77,7 @@ describe('AppController', () => {
         it('method should return an id of updated projects', () => {
             const result = 'a6sdsb8sdf10fk34lkf1ljhb2'
 
-            const dto: CreateProjectDto = {
+            const dto: ProjectDto = {
                 name: 'Budget app',
                 tags: [],
                 description: 'Budgeting app',

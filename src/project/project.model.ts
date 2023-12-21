@@ -1,12 +1,3 @@
-enum ProjectTags {
-    SCSS = 'SCSS',
-    JS = 'JavaScript',
-    TS = 'TypeScript',
-    REACT = 'React',
-    NEST_JS = 'NestJS',
-    NEXT_JS = 'Next.js'
-}
-
 export class ProjectModel {
     _id: string
     name: string
