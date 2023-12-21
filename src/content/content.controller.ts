@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { Content, ContentType, PageContent } from './content.model';
 import { ContentDto } from './dto/content.dto';
-import { PageService } from './content.service';
+import { ContentService } from './content.service';
 
 @Controller('content')
 export class ContentController {
-    constructor(private readonly pageService: PageService) { }
+    constructor(private readonly pageService: ContentService) { }
 
     @Get()
     getPagesContent(): Array<PageContent> {

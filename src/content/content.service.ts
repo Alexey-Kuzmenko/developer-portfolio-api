@@ -3,15 +3,15 @@ import { PageContent, ContentLang, ContentType, Content } from './content.model'
 import { ContentDto } from './dto/content.dto';
 
 @Injectable()
-export class PageService {
-    private pages: Array<PageContent> = []
+export class ContentService {
+    private pagesContent: Array<PageContent> = []
 
     getPagesContent() {
-        return this.pages
+        return this.pagesContent
     }
 
     getContent(type: ContentType, lang: ContentLang): Content {
-        const pageContent = this.pages.find(page => page.type === type)
+        const pageContent = this.pagesContent.find(page => page.type === type)
 
         if (lang === 'ua') {
             return pageContent.ua
@@ -21,7 +21,7 @@ export class PageService {
         }
     }
 
-    addPageContent(dto: Omit<PageContent, '_id'>): PageContent {
+    addPageContent(dto: Omit<PageContent, '_id'>) {
         const pageContent: PageContent = {
             _id: Math.floor(Math.random() * 10_000).toString(),
             ...dto
@@ -31,15 +31,15 @@ export class PageService {
     }
 
     updateContent(type: ContentType, lang: ContentLang, dto: ContentDto): string {
-        const pageContent: PageContent = this.pages.find((page) => page.type === type)
+        const pageContent: PageContent = this.pagesContent.find((page) => page.type === type)
         const content: Content = lang === 'ua' ? pageContent.ua : pageContent.eng
 
         if (pageContent && content) {
-            const pagesCopy: Array<PageContent> = [...this.pages]
-            const pageContentIndex: number = this.pages.indexOf(pageContent)
+            const pagesContentCopy: Array<PageContent> = [...this.pagesContent]
+            const pageContentIndex: number = this.pagesContent.indexOf(pageContent)
 
-            pagesCopy[pageContentIndex] = { ...pageContent, [lang]: { _id: content._id, ...dto } }
-            this.pages = pagesCopy
+            pagesContentCopy[pageContentIndex] = { ...pageContent, [lang]: { _id: content._id, ...dto } }
+            this.pagesContent = pagesContentCopy
             return content._id
         }
 
@@ -47,7 +47,7 @@ export class PageService {
 
 
     deletePageContent(type: ContentType): string {
-        this.pages = this.pages.filter((page) => page.type !== type)
+        this.pagesContent = this.pagesContent.filter((page) => page.type !== type)
         return type
     }
 
