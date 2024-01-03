@@ -6,9 +6,24 @@ import { ContentModule } from './content/content.module';
 import { SkillModule } from './skill/skill.module';
 import { ContactModule } from './contact/contact.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypegooseModule } from 'nestjs-typegoose';
+import { getMongoConfig } from './configs/mongo.config';
 
 @Module({
-  imports: [ProjectModule, ContentModule, SkillModule, ContactModule, AuthModule],
+  imports: [
+    ProjectModule,
+    ContentModule,
+    SkillModule,
+    ContactModule,
+    AuthModule,
+    ConfigModule.forRoot(),
+    TypegooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: getMongoConfig
+    })
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
