@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { getMongoConfig } from './configs/mongo.config';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { getMongoConfig } from './configs/mongo.config';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: getMongoConfig
-    })
+    }),
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
