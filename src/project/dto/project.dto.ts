@@ -1,4 +1,4 @@
-export class CreateProjectDto {
+export class ProjectDto {
     name: string
     tags: Array<string>
     description: string

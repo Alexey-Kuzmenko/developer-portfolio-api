@@ -1,17 +1,28 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { SkillModel } from './skill.model';
+import { SkillService } from './skill.service';
 
 @Controller('skills')
 export class SkillController {
+    constructor(private readonly skillService: SkillService) { }
+
     @Get()
-    async getSkills() { }
+    getSkills(): Array<SkillModel> {
+        return this.skillService.getAllSkills()
+    }
 
     @Post()
-    async addSkill(@Body() dto: Omit<SkillModel, '_id'>) { }
+    addSkill(@Body() dto: Omit<SkillModel, '_id'>): SkillModel {
+        return this.skillService.createSkill(dto)
+    }
 
     @Patch(':id')
-    async updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>) { }
+    updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>): string {
+        return this.skillService.updateSkill(dto, id)
+    }
 
     @Delete(':id')
-    async deleteSkillById(@Param('id') id: string) { }
+    deleteSkillById(@Param('id') id: string): string {
+        return this.skillService.deleteSkill(id)
+    }
 }
