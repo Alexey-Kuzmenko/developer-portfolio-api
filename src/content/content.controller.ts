@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Content, ContentType, PageContent } from './content.model';
 import { ContentDto } from './dto/content.dto';
 import { ContentService } from './content.service';
@@ -17,11 +17,13 @@ export class ContentController {
         return this.pageService.getContent(params.type, params.lang)
     }
 
+    @UsePipes(new ValidationPipe())
     @Post('create')
     createPageContent(@Body() dto: Omit<PageContent, '_id'>): PageContent {
         return this.pageService.addPageContent(dto)
     }
 
+    @UsePipes(new ValidationPipe())
     @Put(':type/:lang')
     updateContent(@Param() params: any, @Body() dto: ContentDto) {
         return this.pageService.updateContent(params.type, params.lang, dto)
