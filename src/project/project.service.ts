@@ -1,67 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ProjectModel } from './project.model';
 import { ProjectDto } from './dto/project.dto';
+import { InjectModel } from 'nestjs-typegoose';
+import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types';
+import { PROJECT_ALREADY_EXISTS, PROJECT_NOT_FOUND } from './project.constants';
 
 @Injectable()
 export class ProjectService {
-    private projects: Array<ProjectModel> = [
-        {
-            _id: '9d975cb9-ccc4-43eb-a626-f5f94034de2b',
-            name: 'Budgte app',
-            tags: ['React', 'TypeScript'],
-            description: 'Budget App is a personal budgeting app that helps you track your income, expenses, and profits.',
-            link: 'https://budget-app-ng0j.onrender.com',
-            repoLink: 'https://github.com/Alexey-Kuzmenko/budget-app',
-            previewImage: '',
+    constructor(@InjectModel(ProjectModel) private readonly projectModel: ModelType<ProjectModel>) { }
 
-        },
-        {
-            _id: '568ced6c-5ae6-442f-87dd-ce300be50d7b',
-            name: 'Quiz App',
-            tags: ['React', 'JavaScript'],
-            description: 'In this app, you can create custom quizzes or play already-created quizzes.',
-            link: 'https://quiz-game-n2q7.onrender.com',
-            repoLink: 'https://github.com/Alexey-Kuzmenko/react-quiz',
-            previewImage: '',
-
-        },
-    ]
-
-    getAllProjects(): Array<ProjectModel> {
-        return this.projects
+    async getAllProjects(): Promise<DocumentType<ProjectModel>[]> {
+        return this.projectModel.find().exec()
     }
 
-    createProject(dto: ProjectDto): ProjectModel {
-        const project: ProjectModel = {
-            _id: Math.floor(Math.random() * 10_0000).toString(),
-            ...dto
-        }
-
-        this.projects.push(project)
-        return project
-    }
-
-    getProjectById(id: string): ProjectModel {
-        const project: ProjectModel = this.projects.find(project => project._id === id)
-        return project
-    }
-
-    deleteProjectById(id: string): string {
-        this.projects = this.projects.filter(project => project._id !== id)
-        return id
-    }
-
-    updateProjectById(id: string, dto: ProjectDto): string | undefined {
-        const project: ProjectModel = this.projects.find(project => project._id === id)
+    async createProject(dto: ProjectDto): Promise<DocumentType<ProjectModel>> {
+        const project = this.projectModel.findOne({ name: dto.name }).exec()
 
         if (project) {
-            const projectsCopy: Array<ProjectModel> = [...this.projects]
-            const projectIndex: number = this.projects.indexOf(project)
-            projectsCopy[projectIndex] = { _id: project._id, ...dto }
-            this.projects = projectsCopy
-            return id
+            throw new HttpException({
+                status: HttpStatus.CONFLICT,
+                error: PROJECT_ALREADY_EXISTS
+            }, HttpStatus.CONFLICT)
+        } else {
+            return this.projectModel.create(dto)
+        }
+    }
+
+    async getProjectById(id: string): Promise<ProjectModel> {
+        const project: ProjectModel = await this.projectModel.findById(id).exec()
+
+        if (!project) {
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: PROJECT_NOT_FOUND
+            }, HttpStatus.NOT_FOUND)
+        } else {
+            return project
         }
 
+    }
+
+    async deleteProjectById(id: string): Promise<string> {
+        this.projectModel.findByIdAndDelete(id).exec()
+        return `Project with id: ${id} successfully deleted`
+    }
+
+    async updateProjectById(id: string, dto: ProjectDto): Promise<string> {
+        const project: ProjectModel = await this.projectModel.findById(id).exec()
+
+        if (!project) {
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: PROJECT_NOT_FOUND
+            }, HttpStatus.NOT_FOUND)
+        } else {
+            this.projectModel.findByIdAndUpdate(id, dto)
+            return `Project with id: ${id} successfully updated`
+        }
     }
 
 }

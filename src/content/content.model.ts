@@ -30,8 +30,8 @@ export class Content extends TimeStamps {
     links?: Array<Link>
 }
 
-export interface PageContent extends Base { }
-export class PageContent extends TimeStamps {
+export interface ContentModel extends Base { }
+export class ContentModel extends TimeStamps {
     @prop({ enum: ContentType })
     type: ContentType
     @prop()

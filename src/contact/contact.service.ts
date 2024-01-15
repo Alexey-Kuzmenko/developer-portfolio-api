@@ -3,7 +3,7 @@ import { ContactModel } from './contact.model';
 import { ContactDto } from './dto/contact.dto';
 import { InjectModel } from 'nestjs-typegoose';
 import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types';
-import { CONTACT_NOT_FOUND, DATA_ALREADY_EXISTS } from './contact.constants';
+import { CONTACT_NOT_FOUND, CONTACT_ALREADY_EXISTS } from './contact.constants';
 
 @Injectable()
 export class ContactService {
@@ -20,7 +20,7 @@ export class ContactService {
         if (contact) {
             throw new HttpException({
                 status: HttpStatus.CONFLICT,
-                error: DATA_ALREADY_EXISTS,
+                error: CONTACT_ALREADY_EXISTS,
             }, HttpStatus.CONFLICT);
         } else {
             return this.contactModel.create(dto)

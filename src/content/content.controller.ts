@@ -1,36 +1,37 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Content, ContentType, PageContent } from './content.model';
+import { Content, ContentType, ContentModel } from './content.model';
 import { ContentDto } from './dto/content.dto';
 import { ContentService } from './content.service';
+import { DocumentType } from '@typegoose/typegoose';
 
 @Controller('content')
 export class ContentController {
-    constructor(private readonly pageService: ContentService) { }
+    constructor(private readonly contentService: ContentService) { }
 
     @Get()
-    getPagesContent(): Array<PageContent> {
-        return this.pageService.getPagesContent()
+    async getPagesContent(): Promise<DocumentType<ContentModel>[]> {
+        return this.contentService.getPagesContent()
     }
 
     @Get(':type/:lang')
-    getContent(@Param() params: any): Content {
-        return this.pageService.getContent(params.type, params.lang)
+    async getContent(@Param() params: any): Promise<Content> {
+        return this.contentService.getContent(params.type, params.lang)
     }
 
     @UsePipes(new ValidationPipe())
     @Post('create')
-    createPageContent(@Body() dto: Omit<PageContent, '_id'>): PageContent {
-        return this.pageService.addPageContent(dto)
+    async createPageContent(@Body() dto: Pick<ContentModel, 'type' | 'eng' | 'ua'>): Promise<DocumentType<ContentModel>> {
+        return this.contentService.addPageContent(dto)
     }
 
     @UsePipes(new ValidationPipe())
-    @Put(':type/:lang')
-    updateContent(@Param() params: any, @Body() dto: ContentDto) {
-        return this.pageService.updateContent(params.type, params.lang, dto)
+    @Put(':id/:lang')
+    async updateContent(@Param() params: any, @Body() dto: ContentDto): Promise<string> {
+        return this.contentService.updateContent(params.id, params.lang, dto)
     }
 
-    @Delete(':type')
-    deletePageContent(@Param('type') type: ContentType) {
-        return this.pageService.deletePageContent(type)
+    @Delete(':id')
+    deletePageContent(@Param('type') type: ContentType): Promise<string> {
+        return this.contentService.deletePageContent(type)
     }
 }

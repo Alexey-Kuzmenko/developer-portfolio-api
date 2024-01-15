@@ -8,6 +8,5 @@ const getMongoString = (configService: ConfigService): string => {
 export const getMongoConfig = async (configService: ConfigService): Promise<TypegooseModuleOptions> => {
     return {
         uri: getMongoString(configService),
-        useNewUrlParser: true,
     }
 }
