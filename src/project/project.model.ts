@@ -19,4 +19,6 @@ export class ProjectModel extends TimeStamps {
     images?: Array<string>
     @prop()
     body?: string
+    @prop({ type: () => [Object] })
+    technologies: Array<{ iconClass: string, label: string }>
 }

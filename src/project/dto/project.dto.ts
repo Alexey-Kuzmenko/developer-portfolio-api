@@ -26,4 +26,8 @@ export class ProjectDto {
 
     @IsString()
     body?: string
+
+    @IsNotEmpty({ message: 'Project stack of technologies cannot be empty value' })
+    @IsArray()
+    technologies: Array<{ iconClass: string, label: string }>
 }
