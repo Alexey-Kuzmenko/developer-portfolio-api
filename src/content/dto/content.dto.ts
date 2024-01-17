@@ -1,5 +1,12 @@
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
-import { Link } from '../content.model';
+import { Type } from 'class-transformer';
+import { IsArray, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
+
+class Link {
+    @IsString()
+    label: string
+    @IsString()
+    href: string
+}
 
 export class ContentDto {
     @IsString()
@@ -8,11 +15,16 @@ export class ContentDto {
 
     @IsString()
     @IsNotEmpty({ message: 'Body value cannot be empty' })
-    body: string;
+    @IsOptional()
+    body?: string;
 
     @IsString()
+    @IsOptional()
     image?: string;
 
     @IsArray()
+    @IsOptional()
+    @ValidateNested()
+    @Type(() => Link)
     links?: Array<Link>;
 }

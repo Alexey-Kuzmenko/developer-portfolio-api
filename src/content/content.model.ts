@@ -10,7 +10,6 @@ export enum ContentType {
     PROJECTS = 'projects'
 }
 
-
 export class Link {
     @prop({ type: () => String })
     label: string
@@ -26,7 +25,7 @@ export class Content extends TimeStamps {
     body?: string
     @prop()
     image?: string
-    @prop({ type: () => [Link] })
+    @prop({ type: () => [Link], _id: false })
     links?: Array<Link>
 }
 

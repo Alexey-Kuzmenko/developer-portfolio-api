@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator'
+import { Contains, IsNotEmpty, IsOptional, IsString } from 'class-validator'
 
 export class ContactDto {
     @IsString()
@@ -14,9 +14,14 @@ export class ContactDto {
     href: string
 
     @IsString()
+    @Contains('telegram')
+    @Contains('email')
+    @Contains('linkedIn')
+    @Contains('instagram')
     @IsNotEmpty({ message: 'You must specify icon type' })
     iconType: 'telegram' | 'email' | 'linkedIn' | 'instagram'
 
     @IsString()
+    @IsOptional()
     atl?: string
 }
