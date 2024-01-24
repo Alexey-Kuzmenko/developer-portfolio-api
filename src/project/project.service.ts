@@ -14,7 +14,7 @@ export class ProjectService {
     }
 
     async createProject(dto: ProjectDto): Promise<DocumentType<ProjectModel>> {
-        const project = this.projectModel.findOne({ name: dto.name }).exec()
+        const project: ProjectModel = await this.projectModel.findOne({ name: dto.name }).exec()
 
         if (project) {
             throw new HttpException({
@@ -24,6 +24,7 @@ export class ProjectService {
         } else {
             return this.projectModel.create(dto)
         }
+
     }
 
     async getProjectById(id: string): Promise<ProjectModel> {
@@ -45,7 +46,7 @@ export class ProjectService {
         return `Project with id: ${id} successfully deleted`
     }
 
-    async updateProjectById(id: string, dto: ProjectDto): Promise<string> {
+    async updateProjectById(id: string, dto: ProjectDto): Promise<DocumentType<ProjectModel>> {
         const project: ProjectModel = await this.projectModel.findById(id).exec()
 
         if (!project) {
@@ -54,8 +55,7 @@ export class ProjectService {
                 error: PROJECT_NOT_FOUND
             }, HttpStatus.NOT_FOUND)
         } else {
-            this.projectModel.findByIdAndUpdate(id, dto)
-            return `Project with id: ${id} successfully updated`
+            return this.projectModel.findByIdAndUpdate(id, dto, { new: true })
         }
     }
 

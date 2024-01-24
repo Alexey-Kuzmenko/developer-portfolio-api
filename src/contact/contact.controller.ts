@@ -8,6 +8,7 @@ import { DocumentType } from '@typegoose/typegoose';
 export class ContactController {
     constructor(private readonly contactService: ContactService) { }
 
+    @HttpCode(HttpStatus.OK)
     @Get()
     async getContacts(): Promise<DocumentType<ContactModel>[]> {
         return await this.contactService.getAllContacts()
@@ -23,7 +24,7 @@ export class ContactController {
     @HttpCode(HttpStatus.OK)
     @UsePipes(new ValidationPipe())
     @Patch(':id')
-    async updateContact(@Param('id') id: string, @Body() dto: ContactDto): Promise<string> {
+    async updateContact(@Param('id') id: string, @Body() dto: ContactDto): Promise<DocumentType<ContactModel>> {
         return this.contactService.updateContact(id, dto)
     }
 

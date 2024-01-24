@@ -15,12 +15,12 @@ export class SkillController {
 
     @UsePipes(new ValidationPipe())
     @Post()
-    addSkill(@Body() dto: SkillDto): Promise<SkillModel> {
+    addSkill(@Body() dto: SkillDto): Promise<DocumentType<SkillModel>> {
         return this.skillService.createSkill(dto)
     }
 
     @Patch(':id')
-    async updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>): Promise<string> {
+    async updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>): Promise<DocumentType<SkillModel>> {
         return this.skillService.updateSkill(dto, id)
     }
 

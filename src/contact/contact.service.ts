@@ -27,7 +27,7 @@ export class ContactService {
         }
     }
 
-    async updateContact(id: string, dto: ContactDto): Promise<string> {
+    async updateContact(id: string, dto: ContactDto): Promise<DocumentType<ContactModel>> {
         const contact = await this.findContact(id, 'id')
 
         if (!contact) {
@@ -38,8 +38,7 @@ export class ContactService {
         }
 
         if (contact) {
-            await this.contactModel.findByIdAndUpdate(id, dto)
-            return id
+            return this.contactModel.findByIdAndUpdate(id, dto, { new: true })
         }
 
     }
@@ -51,7 +50,7 @@ export class ContactService {
 
     async findContact(value: string, findParam: 'label' | 'id') {
         if (findParam === 'label') {
-            return this.contactModel.find({ label: value }).exec()
+            return this.contactModel.findOne({ label: value }).exec()
         }
 
         if (findParam === 'id') {

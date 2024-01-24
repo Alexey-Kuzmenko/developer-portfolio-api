@@ -1,7 +1,7 @@
 import { prop } from '@typegoose/typegoose'
 import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
 
-enum IconType {
+export enum IconType {
     TELEGRAM = 'telegram',
     EMAIL = 'email',
     LINKED_IN = 'linkedIn',

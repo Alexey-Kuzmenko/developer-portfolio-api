@@ -1,4 +1,5 @@
-import { Contains, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator'
+import { IconType } from '../contact.model'
 
 export class ContactDto {
     @IsString()
@@ -13,13 +14,8 @@ export class ContactDto {
     @IsNotEmpty({ message: 'Href value cannot be empty' })
     href: string
 
-    @IsString()
-    @Contains('telegram')
-    @Contains('email')
-    @Contains('linkedIn')
-    @Contains('instagram')
-    @IsNotEmpty({ message: 'You must specify icon type' })
-    iconType: 'telegram' | 'email' | 'linkedIn' | 'instagram'
+    @IsEnum(IconType)
+    iconType: IconType
 
     @IsString()
     @IsOptional()
