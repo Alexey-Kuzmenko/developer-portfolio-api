@@ -1,67 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ContactModel } from './contact.model';
 import { ContactDto } from './dto/contact.dto';
+import { InjectModel } from 'nestjs-typegoose';
+import { ModelType, DocumentType } from '@typegoose/typegoose/lib/types';
+import { CONTACT_NOT_FOUND, CONTACT_ALREADY_EXISTS } from './contact.constants';
 
 @Injectable()
 export class ContactService {
-    private contacts: Array<ContactModel> = [
-        {
-            _id: '486b0f17-ccf3-432e-a83d-de4cd7fee91b',
-            label: 'Email',
-            body: 'alexey.kuzmenko1101@gamil.com',
-            href: 'alexey.kuzmenko1101@gamil.com',
-            iconType: 'email'
-        },
-        {
-            _id: 'f5ddb82a-9397-48dc-9ca4-34fa0de182e9',
-            label: 'Telegram',
-            body: '@Alesha_Kuzmenko',
-            href: 'https://t.me/Alesha_Kuzmenko',
-            iconType: 'telegram'
-        },
-        {
-            _id: '75284160-00cd-4281-afa7-b23604183ca9',
-            label: 'LinkedIn',
-            body: 'Oleksii Kuzmenko',
-            href: 'alexey.kuzmenko1101@gamil.com',
-            iconType: 'linkedIn'
-        }
-    ]
 
-    getAllContacts(): Array<ContactModel> {
-        return this.contacts
+    constructor(@InjectModel(ContactModel) private readonly contactModel: ModelType<ContactModel>) { }
+
+    async getAllContacts(): Promise<DocumentType<ContactModel>[]> {
+        return this.contactModel.find().exec()
     }
 
-    createContact(dto: ContactDto): ContactModel {
-        const contact: ContactModel = {
-            _id: Math.floor(Math.random() * 10_0000).toString(),
-            ...dto
-        }
-
-        this.contacts.push(contact)
-        return contact
-    }
-
-    updateContact(id: string, dto: ContactDto): string {
-        const contact: ContactModel = this.contacts.find(contact => contact._id === id)
+    async createContact(dto: ContactDto): Promise<DocumentType<ContactModel>> {
+        const contact = await this.findContact(dto.label, 'label')
 
         if (contact) {
-            const contactsCopy: Array<ContactModel> = [...this.contacts]
-            const contactIndex: number = this.contacts.indexOf(contact)
-            contactsCopy[contactIndex] = { _id: contact._id, ...dto }
-            this.contacts = contactsCopy
-            return id
-        }
-
-        if (!contact) {
-            throw new Error(`Contact with id: ${id}, is not defined`);
+            throw new HttpException({
+                status: HttpStatus.CONFLICT,
+                error: CONTACT_ALREADY_EXISTS,
+            }, HttpStatus.CONFLICT);
+        } else {
+            return this.contactModel.create(dto)
         }
     }
 
+    async updateContact(id: string, dto: ContactDto): Promise<DocumentType<ContactModel>> {
+        const contact = await this.findContact(id, 'id')
 
-    deleteContact(id: string): string {
-        this.contacts.filter(contact => contact._id !== id)
-        return id
+        if (!contact) {
+            throw new HttpException({
+                status: HttpStatus.NOT_FOUND,
+                error: CONTACT_NOT_FOUND
+            }, HttpStatus.NOT_FOUND)
+        }
+
+        if (contact) {
+            return this.contactModel.findByIdAndUpdate(id, dto, { new: true })
+        }
+
+    }
+
+    async deleteContact(id: string): Promise<string> {
+        await this.contactModel.findByIdAndDelete(id)
+        return `Contact with: ${id} successfully deleted`
+    }
+
+    async findContact(value: string, findParam: 'label' | 'id') {
+        if (findParam === 'label') {
+            return this.contactModel.findOne({ label: value }).exec()
+        }
+
+        if (findParam === 'id') {
+            return this.contactModel.findById(value).exec()
+        }
     }
 
 }

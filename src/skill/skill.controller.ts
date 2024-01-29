@@ -1,28 +1,31 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { SkillModel } from './skill.model';
 import { SkillService } from './skill.service';
+import { DocumentType } from '@typegoose/typegoose';
+import { SkillDto } from './dto/skill.dto';
 
 @Controller('skills')
 export class SkillController {
     constructor(private readonly skillService: SkillService) { }
 
     @Get()
-    getSkills(): Array<SkillModel> {
+    async getSkills(): Promise<DocumentType<SkillModel>[]> {
         return this.skillService.getAllSkills()
     }
 
+    @UsePipes(new ValidationPipe())
     @Post()
-    addSkill(@Body() dto: Omit<SkillModel, '_id'>): SkillModel {
+    addSkill(@Body() dto: SkillDto): Promise<DocumentType<SkillModel>> {
         return this.skillService.createSkill(dto)
     }
 
     @Patch(':id')
-    updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>): string {
+    async updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>): Promise<DocumentType<SkillModel>> {
         return this.skillService.updateSkill(dto, id)
     }
 
     @Delete(':id')
-    deleteSkillById(@Param('id') id: string): string {
+    async deleteSkillById(@Param('id') id: string): Promise<string> {
         return this.skillService.deleteSkill(id)
     }
 }
