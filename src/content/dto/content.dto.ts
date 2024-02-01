@@ -26,6 +26,5 @@ export class ContentDto {
     @IsOptional()
     @ValidateNested()
     @Type(() => Link)
-    @Type(() => Link)
     links?: Array<Link>;
 }

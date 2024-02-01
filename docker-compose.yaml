@@ -5,8 +5,8 @@ services:
     container_name: dev-api-db
     restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=leon
-      - MONGO_INITDB_ROOT_PASSWORD=hhamk21750940nz9cxqeeozpk1s5tu
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER_NAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     ports:
       - 27018:27017
     volumes:
