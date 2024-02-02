@@ -12,6 +12,7 @@ import { UserModel } from './user.model';
       }
     }])
   ],
-  providers: [UserService]
+  providers: [UserService],
+  exports: [UserService]
 })
 export class UserModule { }

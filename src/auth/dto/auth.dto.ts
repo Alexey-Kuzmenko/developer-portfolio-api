@@ -1,9 +1,10 @@
-import { IsEmail, IsString, MinLength } from 'class-validator'
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
 
 export class AuthDto {
     @IsEmail()
     email: string
+
     @IsString()
-    @MinLength(5, { message: 'Password is to short' })
+    @IsNotEmpty()
     password: string
 }

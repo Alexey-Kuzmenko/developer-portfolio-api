@@ -1,13 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { SkillModel } from './skill.model';
 import { SkillService } from './skill.service';
 import { DocumentType } from '@typegoose/typegoose';
 import { SkillDto } from './dto/skill.dto';
+import { ApiKeyAuthGuard } from 'src/auth/guards/api-key.guard';
 
 @Controller('skills')
 export class SkillController {
     constructor(private readonly skillService: SkillService) { }
 
+    @UseGuards(ApiKeyAuthGuard)
     @Get()
     async getSkills(): Promise<DocumentType<SkillModel>[]> {
         return this.skillService.getAllSkills()

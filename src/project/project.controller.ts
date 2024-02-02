@@ -1,13 +1,15 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ProjectDto } from './dto/project.dto';
 import { ProjectService } from './project.service';
 import { ProjectModel } from './project.model';
 import { DocumentType } from '@typegoose/typegoose';
+import { ApiKeyAuthGuard } from 'src/auth/guards/api-key.guard';
 
 @Controller('projects')
 export class ProjectController {
     constructor(private readonly projectService: ProjectService) { }
 
+    @UseGuards(ApiKeyAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get()
     async getProjects(): Promise<DocumentType<ProjectModel>[]> {
@@ -20,6 +22,7 @@ export class ProjectController {
         return this.projectService.createProject(dto)
     }
 
+    @UseGuards(ApiKeyAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get(':id')
     async getProjectById(@Param('id') id: string): Promise<ProjectModel> {

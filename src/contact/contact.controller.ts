@@ -1,13 +1,15 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ContactDto } from './dto/contact.dto';
 import { ContactService } from './contact.service';
 import { ContactModel } from './contact.model';
 import { DocumentType } from '@typegoose/typegoose';
+import { ApiKeyAuthGuard } from 'src/auth/guards/api-key.guard';
 
 @Controller('contacts')
 export class ContactController {
     constructor(private readonly contactService: ContactService) { }
 
+    @UseGuards(ApiKeyAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get()
     async getContacts(): Promise<DocumentType<ContactModel>[]> {
