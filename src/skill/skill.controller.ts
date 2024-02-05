@@ -4,6 +4,7 @@ import { SkillService } from './skill.service';
 import { DocumentType } from '@typegoose/typegoose';
 import { SkillDto } from './dto/skill.dto';
 import { ApiKeyAuthGuard } from 'src/auth/guards/api-key.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('skills')
 export class SkillController {
@@ -15,17 +16,20 @@ export class SkillController {
         return this.skillService.getAllSkills()
     }
 
+    @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Post()
     addSkill(@Body() dto: SkillDto): Promise<DocumentType<SkillModel>> {
         return this.skillService.createSkill(dto)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch(':id')
     async updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>): Promise<DocumentType<SkillModel>> {
         return this.skillService.updateSkill(dto, id)
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteSkillById(@Param('id') id: string): Promise<string> {
         return this.skillService.deleteSkill(id)

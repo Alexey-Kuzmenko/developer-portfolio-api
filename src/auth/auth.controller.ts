@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
@@ -29,5 +29,9 @@ export class AuthController {
 
     @UsePipes(new ValidationPipe())
     @Post('login')
-    async singIn(@Body() dto: AuthDto) { }
+    async singIn(@Body() dto: AuthDto) {
+        const user = await this.userService.findUser(dto.email)
+        const { email } = await this.authService.validateUser(user, dto)
+        return this.authService.login(email)
+    }
 }

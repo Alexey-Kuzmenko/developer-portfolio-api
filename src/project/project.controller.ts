@@ -4,6 +4,7 @@ import { ProjectService } from './project.service';
 import { ProjectModel } from './project.model';
 import { DocumentType } from '@typegoose/typegoose';
 import { ApiKeyAuthGuard } from 'src/auth/guards/api-key.guard';
+import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('projects')
 export class ProjectController {
@@ -16,6 +17,7 @@ export class ProjectController {
         return this.projectService.getAllProjects()
     }
 
+    @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.CREATED)
     @Post()
     async createProject(@Body() dto: ProjectDto): Promise<DocumentType<ProjectModel>> {
@@ -29,17 +31,17 @@ export class ProjectController {
         return this.projectService.getProjectById(id)
     }
 
+    @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Patch(':id')
     async updateProjectById(@Param('id') id: string, @Body() dto: ProjectDto): Promise<DocumentType<ProjectModel>> {
         return this.projectService.updateProjectById(id, dto)
     }
 
+    @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Delete(':id')
     deleteProjectById(@Param('id') id: string): Promise<string> {
         return this.projectService.deleteProjectById(id)
     }
-
-
 }
