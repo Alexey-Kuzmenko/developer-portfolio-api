@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { compare } from 'bcryptjs';
-import { INCORRECT_USER_PASSWORD, USER_NOT_FOUND } from 'src/user/user.constants';
+import { INCORRECT_USER_PASSWORD, USER_NOT_FOUND } from '../user/user.constants';
 import { UserModel } from 'src/user/user.model';
 import { AuthDto } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';

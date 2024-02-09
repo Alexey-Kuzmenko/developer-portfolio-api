@@ -3,8 +3,8 @@ import { ProjectDto } from './dto/project.dto';
 import { ProjectService } from './project.service';
 import { ProjectModel } from './project.model';
 import { DocumentType } from '@typegoose/typegoose';
-import { ApiKeyAuthGuard } from 'src/auth/guards/api-key.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { ApiKeyAuthGuard } from '../auth/guards/api-key.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 
 @Controller('projects')
 export class ProjectController {

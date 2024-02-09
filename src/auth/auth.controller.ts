@@ -1,8 +1,8 @@
-import { Body, Controller, HttpException, HttpStatus, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpException, HttpStatus, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
-import { USER_ALREADY_EXIST } from 'src/user/user.constants';
+import { USER_ALREADY_EXIST } from '../user/user.constants';
 
 @Controller('auth')
 export class AuthController {
@@ -12,6 +12,7 @@ export class AuthController {
     ) { }
 
     @UsePipes(new ValidationPipe())
+    @HttpCode(201)
     @Post('register')
     async signUp(@Body() dto: AuthDto) {
         const user = await this.userService.findUser(dto.email)
@@ -28,6 +29,7 @@ export class AuthController {
     }
 
     @UsePipes(new ValidationPipe())
+    @HttpCode(200)
     @Post('login')
     async singIn(@Body() dto: AuthDto) {
         const user = await this.userService.findUser(dto.email)

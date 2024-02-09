@@ -3,8 +3,8 @@ import { SkillModel } from './skill.model';
 import { SkillService } from './skill.service';
 import { DocumentType } from '@typegoose/typegoose';
 import { SkillDto } from './dto/skill.dto';
-import { ApiKeyAuthGuard } from 'src/auth/guards/api-key.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { ApiKeyAuthGuard } from '../auth/guards/api-key.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 
 @Controller('skills')
 export class SkillController {

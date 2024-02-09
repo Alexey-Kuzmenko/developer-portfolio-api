@@ -3,8 +3,8 @@ import { ContactDto } from './dto/contact.dto';
 import { ContactService } from './contact.service';
 import { ContactModel } from './contact.model';
 import { DocumentType } from '@typegoose/typegoose';
-import { ApiKeyAuthGuard } from 'src/auth/guards/api-key.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
+import { ApiKeyAuthGuard } from '../auth/guards/api-key.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 
 @Controller('contacts')
 export class ContactController {
