@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { UserModel } from './user.model';
+import { UserController } from './user.controller';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { UserModel } from './user.model';
     }])
   ],
   providers: [UserService],
-  exports: [UserService]
+  exports: [UserService],
+  controllers: [UserController]
 })
 export class UserModule { }
