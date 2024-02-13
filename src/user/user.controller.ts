@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserModel } from './user.model';
 import { DocumentType } from '@typegoose/typegoose';
@@ -16,7 +16,7 @@ export class UserController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     @Delete()
     async deleteUser(@Body() dto: DeleteUserDto): Promise<UserModel> {
         return this.userService.deleteUser(dto)

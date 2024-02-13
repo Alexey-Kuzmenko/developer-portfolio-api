@@ -12,7 +12,7 @@ export class AuthController {
     ) { }
 
     @UsePipes(new ValidationPipe())
-    @HttpCode(201)
+    @HttpCode(HttpStatus.CREATED)
     @Post('register')
     async signUp(@Body() dto: AuthDto) {
         const user = await this.userService.findUser(dto.email)
@@ -29,7 +29,7 @@ export class AuthController {
     }
 
     @UsePipes(new ValidationPipe())
-    @HttpCode(200)
+    @HttpCode(HttpStatus.OK)
     @Post('login')
     async singIn(@Body() dto: AuthDto) {
         const user = await this.userService.findUser(dto.email)
