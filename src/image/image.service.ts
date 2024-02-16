@@ -39,12 +39,7 @@ export class ImageService {
 
     async deleteDirectory(dirName: string): Promise<string> {
         try {
-            if (dirName === 'uploads') {
-                await remove(`${path}/uploads`)
-            } else {
-                await remove(`${path}/uploads/${dirName}`)
-            }
-
+            await remove(`${path}/uploads/${dirName}`)
             return `Directory: ${dirName} successfully deleted`
         } catch (error) {
             throw new Error(error)
