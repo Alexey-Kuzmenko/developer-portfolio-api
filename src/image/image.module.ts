@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ImagesController } from './images.controller';
-import { ImagesService } from './images.service';
+import { ImageController } from './image.controller';
+import { ImageService } from './image.service';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { path } from 'app-root-path';
 
@@ -9,7 +9,7 @@ import { path } from 'app-root-path';
     rootPath: `${path}/uploads`,
     serveRoot: '/static'
   })],
-  controllers: [ImagesController,],
-  providers: [ImagesService]
+  controllers: [ImageController,],
+  providers: [ImageService]
 })
-export class ImagesModule { }
+export class ImageModule { }

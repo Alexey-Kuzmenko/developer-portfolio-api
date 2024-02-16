@@ -6,7 +6,7 @@ import * as sharp from 'sharp'
 import { CustomImage } from './custom-image.class';
 
 @Injectable()
-export class ImagesService {
+export class ImageService {
 
     async saveImage(images: Array<CustomImage>, folderName: string): Promise<ImageResponseDto[]> {
         const uploadFolder = `${path}/uploads/${folderName}`
