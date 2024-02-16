@@ -1,21 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { path } from 'app-root-path';
-import { ensureDir, writeFile } from 'fs-extra';
+import { ensureDir, remove, writeFile } from 'fs-extra';
 import { ImageResponseDto } from './dto/image-response';
+import * as sharp from 'sharp'
+import { CustomImage } from './custom-image.class';
 
 @Injectable()
 export class ImagesService {
 
-    async saveImage(file: Express.Multer.File): Promise<ImageResponseDto> {
-        const folderName: string = file.originalname.split('_')[0]
+    async saveImage(images: Array<CustomImage>, folderName: string): Promise<ImageResponseDto[]> {
         const uploadFolder = `${path}/uploads/${folderName}`
-
         await ensureDir(uploadFolder)
+        const res: Array<ImageResponseDto> = []
 
-        await writeFile(`${uploadFolder}/${file.originalname}`, file.buffer)
-        return {
-            url: `${folderName}/${file.originalname}`,
-            name: file.originalname
+        for (const file of images) {
+            await writeFile(`${uploadFolder}/${file.originalname}`, file.buffer)
+            res.push({
+                url: `${folderName}/${file.originalname}`,
+                name: file.originalname
+            })
+        }
+
+        return res
+    }
+
+    async convertToWebp(file: Buffer): Promise<Buffer> {
+        return sharp(file).webp().toBuffer()
+    }
+
+    async deleteImage(imgPath: string): Promise<string> {
+        try {
+            await remove(`${path}/uploads/${imgPath}`)
+            return `Image with path: "${imgPath}" successfully deleted`
+        } catch (error) {
+            throw new Error(error)
         }
     }
+
+    async deleteDirectory(dirName: string): Promise<string> {
+        try {
+            if (dirName === 'uploads') {
+                await remove(`${path}/uploads`)
+            } else {
+                await remove(`${path}/uploads/${dirName}`)
+            }
+
+            return `Directory: ${dirName} successfully deleted`
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
 }

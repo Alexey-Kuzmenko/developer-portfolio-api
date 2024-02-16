@@ -19,7 +19,10 @@ lerna-debug.log*
 /.nyc_output
 
 # Mongo
-mongo-data/*
+/mongo-data/*
+
+# Images
+/uploads
 
 # Env file
 .env
