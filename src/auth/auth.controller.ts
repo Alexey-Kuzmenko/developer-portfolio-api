@@ -3,12 +3,14 @@ import { AuthDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { USER_ALREADY_EXIST } from '../user/user.constants';
+import { TelegramService } from 'src/telegram/telegram.service';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly telegramService: TelegramService
     ) { }
 
     @UsePipes(new ValidationPipe())
@@ -23,6 +25,8 @@ export class AuthController {
                 error: USER_ALREADY_EXIST
             }, HttpStatus.CONFLICT)
         } else {
+            const message: string = this.telegramService.generateMessage(dto, 'register')
+            await this.telegramService.sendAuthMessage(message)
             return this.userService.createUser(dto)
         }
 
@@ -34,6 +38,10 @@ export class AuthController {
     async singIn(@Body() dto: AuthDto) {
         const user = await this.userService.findUser(dto.email)
         const { email } = await this.authService.validateUser(user, dto)
+
+        const message: string = this.telegramService.generateMessage(dto, 'login')
+        await this.telegramService.sendAuthMessage(message)
+
         return this.authService.login(email)
     }
 }
