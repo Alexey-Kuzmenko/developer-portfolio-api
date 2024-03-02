@@ -7,7 +7,7 @@ import { ContentType } from '../src/content/content.model';
 import { CreateContentDto } from '../src/content/dto/create-content.dto';
 import { CONTENT_BY_ID_NOT_FOUND } from '../src/content/content.constants';
 
-const testId: string = new Types.ObjectId().toHexString()
+const testId: string = new Types.ObjectId().toHexString();
 
 const testDto: CreateContentDto = {
     type: ContentType.ABOUT,
@@ -21,7 +21,7 @@ const testDto: CreateContentDto = {
         body: 'текст',
         links: [{ label: 'GitHub', href: '' }]
     }
-}
+};
 
 describe('ContentController (e2e)', () => {
     let app: INestApplication;
@@ -42,11 +42,10 @@ describe('ContentController (e2e)', () => {
             .send(testDto)
             .expect(201)
             .then(({ body }: request.Response) => {
-                expect(body._id).toBeDefined()
-                contentId = body._id
-                console.log(body);
-            })
-    })
+                expect(body._id).toBeDefined();
+                contentId = body._id;
+            });
+    });
 
     it('createPageContent (POST) - failed', async () => {
         return request(app.getHttpServer())
@@ -54,19 +53,17 @@ describe('ContentController (e2e)', () => {
             .send(testDto)
             .expect(409)
             .then(({ body }: request.Response) => {
-                expect(body.error).toBeDefined()
-                console.log(body);
-            })
-    })
+                expect(body.error).toBeDefined();
+            });
+    });
 
     it('getPagesContent (GET)', async () => {
         return request(app.getHttpServer())
             .get('/content')
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.length).toBe(1)
-                console.log(body);
-            })
+                expect(body.length).toBe(1);
+            });
     });
 
     it('getContent (GET) - success', async () => {
@@ -74,9 +71,8 @@ describe('ContentController (e2e)', () => {
             .get('/content/about/eng')
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.title).toBe(testDto.eng.title)
-                console.log(body);
-            })
+                expect(body.title).toBe(testDto.eng.title);
+            });
     });
 
     it('updateContent (PATCH) - success', async () => {
@@ -85,10 +81,9 @@ describe('ContentController (e2e)', () => {
             .send({ ...testDto.ua, body: 'Додано Тестовий текст' })
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.ua.body).toBe('Додано Тестовий текст')
-                console.log(body);
-            })
-    })
+                expect(body.ua.body).toBe('Додано Тестовий текст');
+            });
+    });
 
     it('updateContent (PATCH) - failed', async () => {
         return request(app.getHttpServer())
@@ -96,22 +91,20 @@ describe('ContentController (e2e)', () => {
             .send({ ...testDto.ua, body: 'Тестовий текст' })
             .expect(404)
             .then(({ body }: request.Response) => {
-                expect(body.message).toBe(CONTENT_BY_ID_NOT_FOUND)
-                console.log(body);
-            })
-    })
+                expect(body.message).toBe(CONTENT_BY_ID_NOT_FOUND);
+            });
+    });
 
     it('deletePageContent (DELETE) - success', async () => {
         return request(app.getHttpServer())
             .delete(`/content/${contentId}`)
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body).toBeDefined()
-                console.log(body);
-            })
-    })
+                expect(body).toBeDefined();
+            });
+    });
 
     afterAll(async () => {
-        await disconnect()
+        await disconnect();
     });
 });

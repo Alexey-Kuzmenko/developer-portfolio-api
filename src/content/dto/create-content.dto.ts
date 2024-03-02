@@ -4,13 +4,13 @@ import { ContentDto } from './content.dto';
 import { Type } from 'class-transformer';
 export class CreateContentDto {
     @IsEnum(ContentType)
-    type: ContentType
+    type: ContentType;
 
     @ValidateNested()
     @Type(() => Content)
-    eng: ContentDto
+    eng: ContentDto;
 
     @ValidateNested()
     @Type(() => Content)
-    ua: ContentDto
+    ua: ContentDto;
 }

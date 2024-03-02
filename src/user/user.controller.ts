@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserModel } from './user.model';
 import { DocumentType } from '@typegoose/typegoose';
@@ -12,13 +12,14 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Get()
     async getAllUsers(): Promise<DocumentType<UserModel>[]> {
-        return this.userService.getUsers()
+        return this.userService.getUsers();
     }
 
     @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.OK)
+    @UsePipes(new ValidationPipe())
     @Delete()
     async deleteUser(@Body() dto: DeleteUserDto): Promise<UserModel> {
-        return this.userService.deleteUser(dto)
+        return this.userService.deleteUser(dto);
     }
 }

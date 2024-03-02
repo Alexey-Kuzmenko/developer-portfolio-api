@@ -6,7 +6,7 @@ import { Types, disconnect } from 'mongoose';
 import { ProjectDto } from 'src/project/dto/project.dto';
 import { PROJECT_ALREADY_EXISTS, PROJECT_NOT_FOUND } from '../src/project/project.constants';
 
-const testId: string = new Types.ObjectId().toHexString()
+const testId: string = new Types.ObjectId().toHexString();
 
 const testDto: ProjectDto = {
     name: 'Budget app',
@@ -20,7 +20,7 @@ const testDto: ProjectDto = {
         iconClass: 'devicon-react-original',
         label: 'React'
     }]
-}
+};
 
 describe('ProjectController (e2e)', () => {
     let app: INestApplication;
@@ -41,11 +41,10 @@ describe('ProjectController (e2e)', () => {
             .send(testDto)
             .expect(201)
             .then(({ body }: request.Response) => {
-                expect(body._id).toBeDefined()
-                projectId = body._id
-                console.log(body._id);
-            })
-    })
+                expect(body._id).toBeDefined();
+                projectId = body._id;
+            });
+    });
 
     it('createProject (POST) - failed', async () => {
         return request(app.getHttpServer())
@@ -53,29 +52,26 @@ describe('ProjectController (e2e)', () => {
             .send(testDto)
             .expect(409)
             .then(({ body }: request.Response) => {
-                expect(body.error).toBe(PROJECT_ALREADY_EXISTS)
-                console.log(body);
-            })
-    })
+                expect(body.error).toBe(PROJECT_ALREADY_EXISTS);
+            });
+    });
 
     it('getProjects (GET) - success', async () => {
         return request(app.getHttpServer())
             .get('/projects')
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.length).toBe(1)
-                console.log(body);
-            })
-    })
+                expect(body.length).toBe(1);
+            });
+    });
 
     it('getProjectById (GET) - success', async () => {
         return request(app.getHttpServer())
             .get('/projects/' + projectId)
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body._id).toBe(projectId)
-                console.log(body);
-            })
+                expect(body._id).toBe(projectId);
+            });
     });
 
     it('getProjectById (GET) - failed', async () => {
@@ -83,9 +79,8 @@ describe('ProjectController (e2e)', () => {
             .get('/projects/' + testId)
             .expect(404)
             .then(({ body }: request.Response) => {
-                expect(body.error).toBe(PROJECT_NOT_FOUND)
-                console.log(body);
-            })
+                expect(body.error).toBe(PROJECT_NOT_FOUND);
+            });
     });
 
     it('updateProjectById (PATCH) - success', async () => {
@@ -94,9 +89,8 @@ describe('ProjectController (e2e)', () => {
             .send({ ...testDto, name: 'Pet project' })
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.name).toBe('Pet project')
-                console.log(body);
-            })
+                expect(body.name).toBe('Pet project');
+            });
     });
 
     it('updateProjectById (PATCH) - failed', async () => {
@@ -105,9 +99,8 @@ describe('ProjectController (e2e)', () => {
             .send({ ...testDto, name: 'Pet project' })
             .expect(404)
             .then(({ body }: request.Response) => {
-                expect(body.error).toBe(PROJECT_NOT_FOUND)
-                console.log(body);
-            })
+                expect(body.error).toBe(PROJECT_NOT_FOUND);
+            });
     });
 
     it('deleteProjectById (DELETE) - success', async () => {
@@ -115,12 +108,11 @@ describe('ProjectController (e2e)', () => {
             .delete('/projects/' + projectId)
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body).toBeDefined()
-                console.log(body);
-            })
-    })
+                expect(body).toBeDefined();
+            });
+    });
 
     afterAll(async () => {
-        await disconnect()
+        await disconnect();
     });
-})
+});

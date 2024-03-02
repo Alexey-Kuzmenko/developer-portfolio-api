@@ -15,7 +15,7 @@ describe('AppController', () => {
         }).compile();
 
         contactController = app.get<ContactController>(ContactController);
-        contactService = app.get<ContactService>(ContactService)
+        contactService = app.get<ContactService>(ContactService);
     });
 
     it('controller should be defined', () => {
@@ -30,8 +30,8 @@ describe('AppController', () => {
 
     describe('getContacts', () => {
         it('service should return an array of contacts', () => {
-            const result: Array<ContactModel> = []
-            jest.spyOn(contactService, 'getAllContacts').mockImplementation(() => result)
+            const result: Array<ContactModel> = [];
+            jest.spyOn(contactService, 'getAllContacts').mockImplementation(() => result);
             expect(contactController.getContacts()).toBe(result);
         });
     });
@@ -45,9 +45,9 @@ describe('AppController', () => {
                 href: 'link',
                 atl: 'Instagram page',
                 iconType: 'email'
-            }
+            };
 
-            jest.spyOn(contactService, 'createContact').mockImplementation(() => result)
+            jest.spyOn(contactService, 'createContact').mockImplementation(() => result);
             expect(contactController.addContact(result)).toBe<ContactModel>(result);
         });
     });
@@ -61,19 +61,19 @@ describe('AppController', () => {
                 href: 'link',
                 atl: 'Instagram page',
                 iconType: 'email'
-            }
-            const result: string = dto._id
+            };
+            const result: string = dto._id;
 
-            jest.spyOn(contactService, 'updateContact').mockImplementation(() => result)
+            jest.spyOn(contactService, 'updateContact').mockImplementation(() => result);
             expect(contactController.updateContact(result, dto)).toBe<string>(result);
         });
     });
 
     describe('deleteContact', () => {
         it('service should return an id of contact', () => {
-            const result = '65b2e9ec-9c84-4d85-9073-86b1d875ade8'
+            const result = '65b2e9ec-9c84-4d85-9073-86b1d875ade8';
 
-            jest.spyOn(contactService, 'deleteContact').mockImplementation(() => result)
+            jest.spyOn(contactService, 'deleteContact').mockImplementation(() => result);
             expect(contactController.deleteContactById(result)).toBe<string>(result);
         });
     });

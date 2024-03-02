@@ -14,7 +14,7 @@ export class ContactController {
     @HttpCode(HttpStatus.OK)
     @Get()
     async getContacts(): Promise<DocumentType<ContactModel>[]> {
-        return await this.contactService.getAllContacts()
+        return await this.contactService.getAllContacts();
     }
 
     @UseGuards(JwtAuthGuard)
@@ -22,7 +22,7 @@ export class ContactController {
     @UsePipes(new ValidationPipe())
     @Post()
     async addContact(@Body() dto: ContactDto): Promise<DocumentType<ContactModel>> {
-        return this.contactService.createContact(dto)
+        return this.contactService.createContact(dto);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -30,12 +30,12 @@ export class ContactController {
     @UsePipes(new ValidationPipe())
     @Patch(':id')
     async updateContact(@Param('id') id: string, @Body() dto: ContactDto): Promise<DocumentType<ContactModel>> {
-        return this.contactService.updateContact(id, dto)
+        return this.contactService.updateContact(id, dto);
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteContactById(@Param('id') id: string): Promise<string> {
-        return this.contactService.deleteContact(id)
+        return this.contactService.deleteContact(id);
     }
 }

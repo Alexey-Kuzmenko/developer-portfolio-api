@@ -9,7 +9,7 @@ import { INCORRECT_USER_PASSWORD, USER_ALREADY_EXIST, USER_NOT_FOUND } from '../
 const testDto: CreateUserDto = {
     email: 'guest@gmail.com',
     password: 'guestUser11'
-}
+};
 
 describe('AuthController (e2e)', () => {
     let app: INestApplication;
@@ -29,10 +29,9 @@ describe('AuthController (e2e)', () => {
             .send(testDto)
             .expect(201)
             .then(({ body }: request.Response) => {
-                expect(body.email).toBe(testDto.email)
-                console.log(body);
-            })
-    })
+                expect(body.email).toBe(testDto.email);
+            });
+    });
 
     it('signUp (Post) - fail', async () => {
         return request(app.getHttpServer())
@@ -40,10 +39,9 @@ describe('AuthController (e2e)', () => {
             .send(testDto)
             .expect(409)
             .then(({ body }: request.Response) => {
-                expect(body.error).toBe(USER_ALREADY_EXIST)
-                console.log(body);
-            })
-    })
+                expect(body.error).toBe(USER_ALREADY_EXIST);
+            });
+    });
 
     it('signIn (Post) - success', async () => {
         return request(app.getHttpServer())
@@ -51,10 +49,9 @@ describe('AuthController (e2e)', () => {
             .send(testDto)
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.access_token).toBeDefined()
-                console.log(body);
-            })
-    })
+                expect(body.access_token).toBeDefined();
+            });
+    });
 
     it('signIn (Post) - incorrect user password', async () => {
         return request(app.getHttpServer())
@@ -62,10 +59,9 @@ describe('AuthController (e2e)', () => {
             .send({ ...testDto, password: '11' })
             .expect(401)
             .then(({ body }: request.Response) => {
-                expect(body.error).toBe(INCORRECT_USER_PASSWORD)
-                console.log(body);
-            })
-    })
+                expect(body.error).toBe(INCORRECT_USER_PASSWORD);
+            });
+    });
 
     it('signIn (Post) - user not found', async () => {
         return request(app.getHttpServer())
@@ -73,12 +69,11 @@ describe('AuthController (e2e)', () => {
             .send({ email: 'user@ukr.net', password: '11' })
             .expect(404)
             .then(({ body }: request.Response) => {
-                expect(body.error).toBe(USER_NOT_FOUND)
-                console.log(body);
-            })
-    })
+                expect(body.error).toBe(USER_NOT_FOUND);
+            });
+    });
 
     afterAll(async () => {
-        await disconnect()
+        await disconnect();
     });
-})
+});

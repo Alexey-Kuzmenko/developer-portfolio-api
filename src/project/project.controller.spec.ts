@@ -6,7 +6,7 @@ import { ProjectDto } from './dto/project.dto';
 
 describe('AppController', () => {
     let projectController: ProjectController;
-    let projectService: ProjectService
+    let projectService: ProjectService;
 
     beforeEach(async () => {
         const app: TestingModule = await Test.createTestingModule({
@@ -15,7 +15,7 @@ describe('AppController', () => {
         }).compile();
 
         projectController = app.get<ProjectController>(ProjectController);
-        projectService = app.get<ProjectService>(ProjectService)
+        projectService = app.get<ProjectService>(ProjectService);
     });
 
     describe('root', () => {
@@ -40,14 +40,14 @@ describe('AppController', () => {
                 previewImage: 'src/assets/img.webp',
             }];
 
-            jest.spyOn(projectService, 'getAllProjects').mockImplementation(() => result)
+            jest.spyOn(projectService, 'getAllProjects').mockImplementation(() => result);
             expect(projectController.getProjects()).toBe<Array<ProjectModel>>(result);
         });
     });
 
     describe('getProjectsById', () => {
         it('method should return projects object', () => {
-            const projectId = 'a6sdsb8sdf10fk34lkf1ljhb2'
+            const projectId = 'a6sdsb8sdf10fk34lkf1ljhb2';
 
             const result: ProjectModel = {
                 _id: 'a6sdsb8sdf10fk34lkf1ljhb2',
@@ -59,23 +59,23 @@ describe('AppController', () => {
                 previewImage: 'src/assets/img.webp',
             };
 
-            jest.spyOn(projectService, 'getProjectById').mockImplementation(() => result)
+            jest.spyOn(projectService, 'getProjectById').mockImplementation(() => result);
             expect(projectController.getProjectById(projectId)).toBe<ProjectModel>(result);
         });
     });
 
     describe('deleteProjectsById', () => {
         it('method should return an id of deleted projects', () => {
-            const result = 'a6sdsb8sdf10fk34lkf1ljhb2'
+            const result = 'a6sdsb8sdf10fk34lkf1ljhb2';
 
-            jest.spyOn(projectService, 'deleteProjectById').mockImplementation(() => result)
+            jest.spyOn(projectService, 'deleteProjectById').mockImplementation(() => result);
             expect(projectController.deleteProjectById(result)).toBe<string>(result);
         });
     });
 
     describe('updateProjectById', () => {
         it('method should return an id of updated projects', () => {
-            const result = 'a6sdsb8sdf10fk34lkf1ljhb2'
+            const result = 'a6sdsb8sdf10fk34lkf1ljhb2';
 
             const dto: ProjectDto = {
                 name: 'Budget app',
@@ -86,7 +86,7 @@ describe('AppController', () => {
                 previewImage: 'src/assets/budget_app.webp',
             };
 
-            jest.spyOn(projectService, 'updateProjectById').mockImplementation(() => result)
+            jest.spyOn(projectService, 'updateProjectById').mockImplementation(() => result);
             expect(projectController.updateProjectById(result, dto)).toBe<string>(result);
         });
     });

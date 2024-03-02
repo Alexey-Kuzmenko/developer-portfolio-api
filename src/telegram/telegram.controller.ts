@@ -11,7 +11,7 @@ export class TelegramController {
     @UsePipes(new ValidationPipe())
     @UseGuards(ApiKeyAuthGuard)
     sendMessage(@Body() dto: MessageDto): Promise<void> {
-        const message: string = this.telegramService.generateMessage(dto, 'order')
-        return this.telegramService.sendMessage(message)
+        const message: string = this.telegramService.generateMessage(dto, 'order');
+        return this.telegramService.sendMessage(message);
     }
 }

@@ -1,8 +1,23 @@
 version: '3.8'
 services:
+  api:
+    image: developer-portfolio-api
+    container_name: dev-portfolio-api
+    restart: always
+    ports:
+      - 3000:3000
+    env_file: .env
+    depends_on: 
+      - mongo
+    links:
+      - mongo
+    networks:
+      - api-network
+    environment:
+      - MONGO_HOST=mongo
   mongo:
     image: mongo
-    container_name: dev-api-db
+    container_name: dev-portfolio-api-db
     restart: always
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER_NAME}
@@ -12,3 +27,8 @@ services:
     volumes:
       - ./mongo-data:/data/db
     command: --wiredTigerCacheSizeGB 1.5
+    networks:
+      - api-network
+networks:
+  api-network:
+    driver: bridge

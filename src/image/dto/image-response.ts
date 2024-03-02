@@ -1,4 +1,4 @@
 export class ImageResponseDto {
-    url: string
-    name: string
+    url: string;
+    name: string;
 }

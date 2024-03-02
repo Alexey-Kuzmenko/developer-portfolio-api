@@ -6,5 +6,5 @@ export const getTelegramConfig = (configService: ConfigService): TelegramOptions
         chatId: configService.get('TELEGRAM_CHAT_ID'),
         botToken: configService.get('TELEGRAM_BOT_TOKEN'),
         botChatId: configService.get('TELEGRAM_BOT_CHAT_ID')
-    }
-}
+    };
+};

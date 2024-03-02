@@ -6,13 +6,13 @@ import { Types, disconnect } from 'mongoose';
 import { SkillDto } from '../src/skill/dto/skill.dto';
 import { SKILL_ALREADY_EXISTS, SKILL_NOT_FOUND } from '../src/skill/skill.constants';
 
-const testId: string = new Types.ObjectId().toHexString()
+const testId: string = new Types.ObjectId().toHexString();
 
 const testDto: SkillDto = {
     slug: 'react',
     label: 'React',
     iconClass: 'devicon-react-original'
-}
+};
 
 describe('SkillController (e2e)', () => {
     let app: INestApplication;
@@ -33,11 +33,10 @@ describe('SkillController (e2e)', () => {
             .send(testDto)
             .expect(201)
             .then(({ body }: request.Response) => {
-                expect(body._id).toBeDefined()
-                skillId = body._id
-                console.log(body._id);
-            })
-    })
+                expect(body._id).toBeDefined();
+                skillId = body._id;
+            });
+    });
 
     it('createProject (POST) - failed', async () => {
         return request(app.getHttpServer())
@@ -45,10 +44,9 @@ describe('SkillController (e2e)', () => {
             .send(testDto)
             .expect(409)
             .then(({ body }: request.Response) => {
-                expect(body.error).toBe(SKILL_ALREADY_EXISTS)
-                console.log(body);
-            })
-    })
+                expect(body.error).toBe(SKILL_ALREADY_EXISTS);
+            });
+    });
 
     it('getSkills (GET)', async () => {
         return request(app.getHttpServer())
@@ -56,9 +54,8 @@ describe('SkillController (e2e)', () => {
             .send(testDto)
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.length).toBe(1)
-                console.log(body);
-            })
+                expect(body.length).toBe(1);
+            });
     });
 
     it('updateSkillById (PATCH) - success', async () => {
@@ -67,9 +64,8 @@ describe('SkillController (e2e)', () => {
             .send({ ...testDto, label: 'Next.js' })
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body.label).toBe('Next.js')
-                console.log(body);
-            })
+                expect(body.label).toBe('Next.js');
+            });
     });
 
     it('updateSkillById (PATCH) - failed', async () => {
@@ -78,9 +74,8 @@ describe('SkillController (e2e)', () => {
             .send({ ...testDto, label: 'Next.js' })
             .expect(404)
             .then(({ body }: request.Response) => {
-                expect(body.error).toBe(SKILL_NOT_FOUND)
-                console.log(body);
-            })
+                expect(body.error).toBe(SKILL_NOT_FOUND);
+            });
     });
 
     it('deleteSkillById (DELETE) - success', async () => {
@@ -88,13 +83,12 @@ describe('SkillController (e2e)', () => {
             .delete('/skills/' + skillId)
             .expect(200)
             .then(({ body }: request.Response) => {
-                expect(body).toBeDefined()
-                console.log(body);
-            })
-    })
-
-    afterAll(async () => {
-        await disconnect()
+                expect(body).toBeDefined();
+            });
     });
 
-})
+    afterAll(async () => {
+        await disconnect();
+    });
+
+});

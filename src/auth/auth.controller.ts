@@ -17,17 +17,17 @@ export class AuthController {
     @HttpCode(HttpStatus.CREATED)
     @Post('register')
     async signUp(@Body() dto: AuthDto) {
-        const user = await this.userService.findUser(dto.email)
+        const user = await this.userService.findUser(dto.email);
 
         if (user) {
             throw new HttpException({
                 status: HttpStatus.CONFLICT,
                 error: USER_ALREADY_EXIST
-            }, HttpStatus.CONFLICT)
+            }, HttpStatus.CONFLICT);
         } else {
-            const message: string = this.telegramService.generateMessage(dto, 'register')
-            await this.telegramService.sendAuthMessage(message)
-            return this.userService.createUser(dto)
+            const message: string = this.telegramService.generateMessage(dto, 'register');
+            await this.telegramService.sendAuthMessage(message);
+            return this.userService.createUser(dto);
         }
 
     }
@@ -36,12 +36,12 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @Post('login')
     async singIn(@Body() dto: AuthDto) {
-        const user = await this.userService.findUser(dto.email)
-        const { email } = await this.authService.validateUser(user, dto)
+        const user = await this.userService.findUser(dto.email);
+        const { email } = await this.authService.validateUser(user, dto);
 
-        const message: string = this.telegramService.generateMessage(dto, 'login')
-        await this.telegramService.sendAuthMessage(message)
+        const message: string = this.telegramService.generateMessage(dto, 'login');
+        await this.telegramService.sendAuthMessage(message);
 
-        return this.authService.login(email)
+        return this.authService.login(email);
     }
 }

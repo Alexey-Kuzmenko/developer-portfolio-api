@@ -1,5 +1,5 @@
-import { prop } from '@typegoose/typegoose'
-import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
+import { prop } from '@typegoose/typegoose';
+import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 export enum IconType {
     TELEGRAM = 'telegram',
@@ -11,17 +11,17 @@ export enum IconType {
 export interface ContactModel extends Base { }
 export class ContactModel extends TimeStamps {
     @prop({ type: () => String })
-    label: string
+    label: string;
 
     @prop({ type: () => String })
-    body: string
+    body: string;
 
     @prop({ type: () => String })
-    href: string
+    href: string;
 
     @prop({ enum: IconType })
-    iconType: IconType
+    iconType: IconType;
 
     @prop()
-    atl?: string
+    atl?: string;
 }

@@ -8,7 +8,7 @@ import { TELEGRAM_MODULE_OPTIONS } from './telegram.constants';
 @Module({})
 export class TelegramModule {
   static forRootAsync(options: TelegramModuleOptions): DynamicModule {
-    const asyncOptions = this.generateAsyncOptions(options)
+    const asyncOptions = this.generateAsyncOptions(options);
 
     return {
       module: TelegramModule,
@@ -16,16 +16,16 @@ export class TelegramModule {
       controllers: [TelegramController],
       providers: [TelegramService, asyncOptions],
       exports: [TelegramService]
-    }
+    };
   }
   private static generateAsyncOptions(options: TelegramModuleOptions): Provider {
     return {
       provide: TELEGRAM_MODULE_OPTIONS,
       useFactory: async (...args: any[]) => {
-        const config = await options.useFactory(...args)
-        return config
+        const config = await options.useFactory(...args);
+        return config;
       },
       inject: options.inject || []
-    }
+    };
   }
 }  

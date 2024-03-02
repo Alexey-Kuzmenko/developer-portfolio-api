@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ProjectDto } from './dto/project.dto';
 import { ProjectService } from './project.service';
 import { ProjectModel } from './project.model';
@@ -14,34 +14,36 @@ export class ProjectController {
     @HttpCode(HttpStatus.OK)
     @Get()
     async getProjects(): Promise<DocumentType<ProjectModel>[]> {
-        return this.projectService.getAllProjects()
+        return this.projectService.getAllProjects();
     }
 
     @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.CREATED)
+    @UsePipes(new ValidationPipe())
     @Post()
     async createProject(@Body() dto: ProjectDto): Promise<DocumentType<ProjectModel>> {
-        return this.projectService.createProject(dto)
+        return this.projectService.createProject(dto);
     }
 
     @UseGuards(ApiKeyAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get(':id')
     async getProjectById(@Param('id') id: string): Promise<ProjectModel> {
-        return this.projectService.getProjectById(id)
+        return this.projectService.getProjectById(id);
     }
 
     @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.OK)
+    @UsePipes(new ValidationPipe())
     @Patch(':id')
     async updateProjectById(@Param('id') id: string, @Body() dto: ProjectDto): Promise<DocumentType<ProjectModel>> {
-        return this.projectService.updateProjectById(id, dto)
+        return this.projectService.updateProjectById(id, dto);
     }
 
     @UseGuards(JwtAuthGuard)
     @HttpCode(HttpStatus.OK)
     @Delete(':id')
     deleteProjectById(@Param('id') id: string): Promise<string> {
-        return this.projectService.deleteProjectById(id)
+        return this.projectService.deleteProjectById(id);
     }
 }

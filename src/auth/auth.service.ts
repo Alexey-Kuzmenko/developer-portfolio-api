@@ -14,8 +14,8 @@ export class AuthService {
     ) { }
 
     validateApiKey(apiKey: string): string | null {
-        const permanentApiKey = this.configService.get('API_KEY')
-        return apiKey === permanentApiKey ? apiKey : null
+        const permanentApiKey = this.configService.get('API_KEY');
+        return apiKey === permanentApiKey ? apiKey : null;
     }
 
     async validateUser(user: UserModel, dto: AuthDto): Promise<Pick<UserModel, 'email'>> {
@@ -24,27 +24,27 @@ export class AuthService {
             throw new HttpException({
                 status: HttpStatus.NOT_FOUND,
                 error: USER_NOT_FOUND
-            }, HttpStatus.NOT_FOUND)
+            }, HttpStatus.NOT_FOUND);
         }
 
-        const isPasswordCorrect = await compare(dto.password, user.passwordHash)
+        const isPasswordCorrect = await compare(dto.password, user.passwordHash);
 
         if (!isPasswordCorrect) {
             throw new HttpException({
                 status: HttpStatus.UNAUTHORIZED,
                 error: INCORRECT_USER_PASSWORD
-            }, HttpStatus.UNAUTHORIZED)
+            }, HttpStatus.UNAUTHORIZED);
         }
 
-        return { email: user.email }
+        return { email: user.email };
     }
 
     async login(email: string) {
-        const payload = { email }
+        const payload = { email };
 
         return {
             access_token: await this.jwtService.signAsync(payload)
-        }
+        };
     }
 
 }

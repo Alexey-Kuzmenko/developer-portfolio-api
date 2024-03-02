@@ -13,25 +13,25 @@ export class SkillController {
     @UseGuards(ApiKeyAuthGuard)
     @Get()
     async getSkills(): Promise<DocumentType<SkillModel>[]> {
-        return this.skillService.getAllSkills()
+        return this.skillService.getAllSkills();
     }
 
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Post()
     addSkill(@Body() dto: SkillDto): Promise<DocumentType<SkillModel>> {
-        return this.skillService.createSkill(dto)
+        return this.skillService.createSkill(dto);
     }
 
     @UseGuards(JwtAuthGuard)
     @Patch(':id')
     async updateSkillById(@Param('id') id: string, @Body() dto: Omit<SkillModel, '_id'>): Promise<DocumentType<SkillModel>> {
-        return this.skillService.updateSkill(dto, id)
+        return this.skillService.updateSkill(dto, id);
     }
 
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async deleteSkillById(@Param('id') id: string): Promise<string> {
-        return this.skillService.deleteSkill(id)
+        return this.skillService.deleteSkill(id);
     }
 }

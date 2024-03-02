@@ -17,19 +17,19 @@ export class FileController {
     @UseGuards(JwtAuthGuard)
     @UseInterceptors(FileInterceptor('file'))
     async uploadFile(@UploadedFile() file: Express.Multer.File) {
-        return this.fileService.saveFile(file)
+        return this.fileService.saveFile(file);
     }
 
     @Get()
     @UseGuards(ApiKeyAuthGuard)
     @UsePipes(new ValidationPipe())
     getFile(@Body() { fileName }: GetFileDto, @Res({ passthrough: true }) res: Response): StreamableFile {
-        const file = createReadStream(join(`${path}/uploads/files`, fileName))
+        const file = createReadStream(join(`${path}/uploads/files`, fileName));
         res.set({
             'Content-Type': 'multipart/form-data',
             'Content-Disposition': `attachment; filename="${fileName}"`
-        })
+        });
 
-        return new StreamableFile(file)
+        return new StreamableFile(file);
     }
 }

@@ -1,36 +1,36 @@
-import { prop } from '@typegoose/typegoose'
-import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses'
+import { prop } from '@typegoose/typegoose';
+import { TimeStamps, Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 class ProjectTechnology {
     @prop({ type: () => String })
-    iconClass: string
+    iconClass: string;
     @prop({ type: () => String })
-    label: string
+    label: string;
 }
 
 export interface ProjectModel extends Base { }
 export class ProjectModel extends TimeStamps {
     @prop({ type: () => String })
-    name: string
+    name: string;
 
     @prop({ type: () => [String] })
-    tags: Array<string>
+    tags: Array<string>;
 
     @prop({ type: () => String })
-    description: string
+    description: string;
 
     @prop({ type: () => String })
-    link: string
+    link: string;
 
     @prop({ type: () => String })
-    repoLink: string
+    repoLink: string;
 
     @prop({ type: () => String })
-    image: string
+    image: string;
 
     @prop()
-    body: string
+    body: string;
 
     @prop({ type: () => [ProjectTechnology], _id: false })
-    technologies: Array<ProjectTechnology>
+    technologies: Array<ProjectTechnology>;
 }

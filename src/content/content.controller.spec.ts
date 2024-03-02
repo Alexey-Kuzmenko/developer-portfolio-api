@@ -15,7 +15,7 @@ describe('AppController', () => {
         }).compile();
 
         contentController = app.get<ContentController>(ContentController);
-        contentService = app.get<ContentService>(ContentService)
+        contentService = app.get<ContentService>(ContentService);
     });
 
     describe('root', () => {
@@ -36,17 +36,17 @@ describe('AppController', () => {
                 ua: { _id: '1112', title: 'Тестування' },
                 eng: { _id: '1113', title: 'Testing' }
             }
-        ]
+        ];
 
-        const content: Content = { _id: 'cba7bd93-7cc7-4d3a-8239-49855458e54b', title: 'Testing' }
+        const content: Content = { _id: 'cba7bd93-7cc7-4d3a-8239-49855458e54b', title: 'Testing' };
 
         it('method should return an array of content', () => {
-            jest.spyOn(contentService, 'getPagesContent').mockImplementation(() => pagesContent)
+            jest.spyOn(contentService, 'getPagesContent').mockImplementation(() => pagesContent);
             expect(contentController.getPagesContent()).toBe<PageContent[]>(pagesContent);
         });
 
         it('method should return an content object', () => {
-            jest.spyOn(contentService, 'getContent').mockImplementation(() => content)
+            jest.spyOn(contentService, 'getContent').mockImplementation(() => content);
             expect(contentController.getContent({ type: 'about', lang: 'eng' })).toBe<Content>(content);
         });
     });
@@ -58,36 +58,36 @@ describe('AppController', () => {
             type: 'about',
             ua: { _id: '1112', title: 'Тестування' },
             eng: { _id: '1113', title: 'Testing' }
-        }
+        };
 
         it('method should return an created page content', () => {
-            jest.spyOn(contentService, 'addPageContent').mockImplementation(() => result)
+            jest.spyOn(contentService, 'addPageContent').mockImplementation(() => result);
             expect(contentController.createPageContent(result)).toBe(result);
         });
 
     });
 
     describe('updateContent', () => {
-        const result = ''
+        const result = '';
 
         const dto: ContentDto =
         {
             title: 'Test dto object',
             body: 'lorem'
-        }
+        };
 
         it('method should return an created page content', () => {
-            jest.spyOn(contentService, 'updateContent').mockImplementation(() => result)
-            expect(contentController.updateContent({ type: 'about', lang: 'eng' }, dto)).toBe('')
+            jest.spyOn(contentService, 'updateContent').mockImplementation(() => result);
+            expect(contentController.updateContent({ type: 'about', lang: 'eng' }, dto)).toBe('');
         });
 
     });
 
     describe('deletePageContent', () => {
-        const result = 'about'
+        const result = 'about';
 
         it('method should return an created page content', () => {
-            jest.spyOn(contentService, 'deletePageContent').mockImplementation(() => result)
+            jest.spyOn(contentService, 'deletePageContent').mockImplementation(() => result);
             expect(contentController.deletePageContent('about')).toBe(result);
         });
 

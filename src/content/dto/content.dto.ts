@@ -3,9 +3,9 @@ import { IsArray, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class
 
 class Link {
     @IsString()
-    label: string
+    label: string;
     @IsString()
-    href: string
+    href: string;
 }
 
 export class ContentDto {
