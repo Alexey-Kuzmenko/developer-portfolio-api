@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('v1');
 
   // ! CORS fix for localhost
   app.use(function (request: Request, response: Response, next: NextFunction) {
