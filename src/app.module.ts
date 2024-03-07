@@ -14,6 +14,9 @@ import { ImageModule } from './image/image.module';
 import { FileModule } from './file/file.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { getTelegramConfig } from './configs/telegram.config';
+import { CaptchaModule } from './captcha/captcha.module';
+import { HttpModule } from '@nestjs/axios';
+import { getGoogleCaptchaConfig } from './configs/google.captcha.config';
 
 @Module({
   imports: [
@@ -32,6 +35,7 @@ import { getTelegramConfig } from './configs/telegram.config';
     ImageModule,
     FileModule,
     TelegramModule.forRootAsync({ imports: [ConfigModule], inject: [ConfigService], useFactory: getTelegramConfig }),
+    CaptchaModule.forRootAsync({ imports: [ConfigModule, HttpModule], inject: [ConfigService], useFactory: getGoogleCaptchaConfig }),
   ],
   controllers: [AppController],
   providers: [AppService],
