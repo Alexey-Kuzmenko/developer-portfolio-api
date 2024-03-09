@@ -29,10 +29,6 @@ export class CaptchaService {
                 )
         );
 
-        Logger.log(dto);
-        Logger.log(data);
-        Logger.log(this.options);
-
         if (!data.success) {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,
@@ -41,7 +37,5 @@ export class CaptchaService {
         } else {
             return data;
         }
-
     }
-
 }
