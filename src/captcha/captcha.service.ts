@@ -19,7 +19,6 @@ export class CaptchaService {
     }
 
     async verifyCaptcha(dto: CaptchaDto): Promise<CaptchaResponseDto | void> {
-
         const { data } = await firstValueFrom(
             this.httpService.post<CaptchaResponseDto>(`${this.options.apiUrl}?secret=${this.options.secretKey}&response=${dto.response}`)
                 .pipe(catchError((error: AxiosError) => {

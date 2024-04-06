@@ -4,7 +4,9 @@ import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { USER_ALREADY_EXIST } from '../user/user.constants';
 import { TelegramService } from 'src/telegram/telegram.service';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
     constructor(
@@ -16,6 +18,7 @@ export class AuthController {
     @UsePipes(new ValidationPipe())
     @HttpCode(HttpStatus.CREATED)
     @Post('register')
+    @ApiCreatedResponse({ description: 'Registered successfully and created new user' })
     async signUp(@Body() dto: AuthDto) {
         const user = await this.userService.findUser(dto.email);
 
@@ -35,6 +38,7 @@ export class AuthController {
     @UsePipes(new ValidationPipe())
     @HttpCode(HttpStatus.OK)
     @Post('login')
+    @ApiOkResponse({ description: 'Login successfully' })
     async singIn(@Body() dto: AuthDto) {
         const user = await this.userService.findUser(dto.email);
         const { email } = await this.authService.validateUser(user, dto);

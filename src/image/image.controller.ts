@@ -5,14 +5,21 @@ import { ImageService } from './image.service';
 import { ImageResponseDto } from './dto/image-response';
 import { CustomImage } from './custom-image.class';
 import { DeleteImageDto } from './dto/delete-image.dto';
+import { ApiHeader, ApiOkResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('images')
+@ApiHeader({
+    name: 'Content-Type',
+    description: 'multipart/form-data'
+})
 @Controller('images')
 export class ImageController {
     constructor(private readonly imageService: ImageService) { }
 
-    @Post('upload')
-    @HttpCode(HttpStatus.OK)
+    @HttpCode(HttpStatus.CREATED)
     @UseGuards(JwtAuthGuard)
+    @Post('upload')
+    @ApiCreatedResponse({ description: 'Image successfully added' })
     @UseInterceptors(FileInterceptor('image'))
     async uploadImage(@UploadedFile() file: Express.Multer.File): Promise<ImageResponseDto[]> {
         const folderName: string = file.originalname.split('_')[0];
@@ -29,17 +36,19 @@ export class ImageController {
         return this.imageService.saveImage(images, folderName);
     }
 
-    @Delete('delete')
     @HttpCode(HttpStatus.OK)
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
+    @Delete('delete')
+    @ApiOkResponse({ description: 'Image successfully deleted' })
     async deleteImage(@Body() dto: DeleteImageDto): Promise<string> {
         return this.imageService.deleteImage(dto.imgPath);
     }
 
-    @Delete('delete/:dirName')
     @HttpCode(HttpStatus.OK)
     @UseGuards(JwtAuthGuard)
+    @Delete('delete/:dirName')
+    @ApiOkResponse({ description: 'Directory successfully deleted' })
     async deleteDir(@Param('dirName') dirName: string): Promise<string> {
         return this.imageService.deleteDirectory(dirName);
     }
