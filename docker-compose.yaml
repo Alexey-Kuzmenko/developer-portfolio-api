@@ -6,6 +6,8 @@ services:
     restart: always
     ports:
       - 3000:3000
+    volumes:
+      - uploads-volume:/app/uploads
     env_file: .env
     depends_on: 
       - mongo
@@ -32,3 +34,5 @@ services:
 networks:
   api-network:
     driver: bridge
+volumes:
+  uploads-volume:
