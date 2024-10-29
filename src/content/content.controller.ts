@@ -1,4 +1,17 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    Patch,
+    Post,
+    UseGuards,
+    UsePipes,
+    ValidationPipe
+} from '@nestjs/common';
 import { Content, ContentModel } from './content.model';
 import { ContentDto } from './dto/content.dto';
 import { ContentService } from './content.service';

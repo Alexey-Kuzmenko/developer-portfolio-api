@@ -1,4 +1,17 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    HttpCode,
+    HttpStatus,
+    Param,
+    Patch,
+    Post,
+    UseGuards,
+    UsePipes,
+    ValidationPipe
+} from '@nestjs/common';
 import { SkillModel } from './skill.model';
 import { SkillService } from './skill.service';
 import { DocumentType } from '@typegoose/typegoose';
