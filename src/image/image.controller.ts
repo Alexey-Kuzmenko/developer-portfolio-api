@@ -33,19 +33,19 @@ import { DocumentType } from '@typegoose/typegoose';
 export class ImageController {
     constructor(private readonly imageService: ImageService) { }
 
-    @ApiOkResponse({ description: 'Return data about all images' })
     @HttpCode(HttpStatus.OK)
     @UseGuards(ApiKeyAuthGuard)
     @Get()
+    @ApiOkResponse({ description: 'Return data about all images' })
     async getImagesData(): Promise<DocumentType<ImageModel>[]> {
         return this.imageService.getImagesData();
     }
 
-    @ApiCreatedResponse({ description: 'Image successfully added' })
     @HttpCode(HttpStatus.CREATED)
     @UseGuards(JwtAuthGuard)
-    @UseInterceptors(FileInterceptor('image'))
     @Post('upload')
+    @ApiCreatedResponse({ description: 'Image successfully added' })
+    @UseInterceptors(FileInterceptor('image'))
     async uploadImage(@UploadedFile() file: Express.Multer.File): Promise<ImageResponseDto[]> {
         const folderName: string = file.originalname.split('_')[0];
         const images: Array<CustomImage> = [new CustomImage(file)];
@@ -61,19 +61,19 @@ export class ImageController {
         return this.imageService.saveImage(images, folderName);
     }
 
-    @ApiOkResponse({ description: 'Image successfully deleted' })
     @HttpCode(HttpStatus.OK)
     @UseGuards(JwtAuthGuard)
     @UsePipes(new ValidationPipe())
     @Delete('delete')
+    @ApiOkResponse({ description: 'Image successfully deleted' })
     async deleteImage(@Body() dto: DeleteImageDto): Promise<string> {
         return this.imageService.deleteImage(dto.imgPath);
     }
 
-    @ApiOkResponse({ description: 'Directory successfully deleted' })
     @HttpCode(HttpStatus.OK)
     @UseGuards(JwtAuthGuard)
     @Delete('delete/:dirName')
+    @ApiOkResponse({ description: 'Directory successfully deleted' })
     async deleteDir(@Param('dirName') dirName: string): Promise<string> {
         return this.imageService.deleteDirectory(dirName);
     }
