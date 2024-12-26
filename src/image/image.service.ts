@@ -49,6 +49,9 @@ export class ImageService {
     async deleteDirectory(dirName: string): Promise<string> {
         try {
             await remove(`${path}/uploads/${dirName}`);
+            const regex = new RegExp(`^${dirName}_?[a-zA-Z0-9_-]+\\.(svg|webp|png|jpg|jpeg)$`, 'i');
+            await this.imageModel.deleteMany({ name: regex });
+
             return `Directory: ${dirName} successfully deleted`;
         } catch (error) {
             throw new Error(error);
